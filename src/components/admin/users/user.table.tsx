@@ -5,11 +5,10 @@ import { useEffect, useState } from "react"
 
 const UserTable = () => {
     const [users, setUsers] = useState<IUser[]>([])
-    const accessToken = localStorage.getItem("accessToken")
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const res = await getUsersAPI(accessToken!)
+            const res = await getUsersAPI()
             setUsers(res.data.users)
         }
         fetchUsers()
@@ -51,7 +50,7 @@ const UserTable = () => {
                         okText="Yes"
                         cancelText="No"
                         onConfirm={() => {
-                            deleteUserAPI(record.id, accessToken!)
+                            deleteUserAPI(record.id)
                             setUsers(users.filter(user => user.id !== record.id))
                         }}
                     >

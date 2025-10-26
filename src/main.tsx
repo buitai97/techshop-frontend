@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import AdminLayout from './components/admin/layout/admin.layout'
-import { createBrowserRouter, Outlet } from "react-router";
+import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import User from '@pages/admin/user';
 import Home from '@/pages/admin/home';
