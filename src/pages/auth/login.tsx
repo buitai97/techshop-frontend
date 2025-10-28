@@ -28,7 +28,7 @@ const LoginPage = () => {
                 const user = currentUser?.data?.data?.user
                 setUser(user as IUser)
                 setIsAuthenticated(true)
-                navigate("/admin")
+                navigate("/")
             }
         }
         catch (error: any) {
