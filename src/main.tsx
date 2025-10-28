@@ -18,6 +18,7 @@ import ProductsPage from './pages/client/products';
 import ProductDetailPage from './pages/client/productDetail';
 import Product from './pages/admin/product';
 import ProtectedRoute from './components/auth/protectedRoute';
+import CartPage from './pages/client/cart';
 
 
 const router = createBrowserRouter([
@@ -36,9 +37,12 @@ const router = createBrowserRouter([
             {
                 path: "products/:id",
                 element: <ProductDetailPage />
+            },
+            {
+                path: "cart",
+                element: <CartPage />
             }
         ]
-
     },
     {
         element: <ProtectedRoute />,

@@ -27,7 +27,7 @@ const FeatureProducts = () => {
     const handleAddToCart = async (product: IProduct) => {
         setLoading((prev: any) => ({ ...prev, [product.id]: true }));
         setCartSum((prev: number) => prev + 1);
-        const res = await addToCartAPI(product.id, 1);
+        await addToCartAPI(product.id, 1);
         setLoading((prev: any) => ({ ...prev, [product.id]: false }));
         message.success(`${product.name} added to cart!`);
     };

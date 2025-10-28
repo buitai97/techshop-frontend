@@ -37,6 +37,11 @@ const addToCartAPI = async (productId: number, quantity: number) => {
     return await axios.post(url, { productId, quantity })
 }
 
+const updateCartItemAPI = async (cartItemId: number, quantity: number) => {
+    const url = "/api/cart"
+    return await axios.put(url, { cartItemId, quantity })
+}
+
 
 
 const getProductsAPI = async (page: number, pageSize: number, inStockOnly: boolean, brands?: string[], targets?: string[], priceRange?: [number, number], sort?: string) => {
@@ -56,4 +61,4 @@ const deleteUserAPI = async (id: number) => {
     return await axios.delete(`/api/users/${id}`)
 }
 
-export { addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }
+export { updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }

@@ -6,13 +6,13 @@ interface IProps {
 
 interface IAppData {
     user?: IUser | null,
-    cart?: ICartItem[],
+    cart?: ICart | null,
     cartSum?: number,
     isPageLoading: boolean,
     isAuthenticated: boolean,
     setUser: (v: IUser | null) => void,
     setCartSum: React.Dispatch<React.SetStateAction<number>>;
-    setCart: (v: ICartItem[]) => void,
+    setCart: (v: ICart | null) => void,
     setIsPageLoading: (v: boolean) => void,
     setIsAuthenticated: (v: boolean) => void,
 
@@ -23,7 +23,7 @@ const AppProvider = (props: IProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
     const [user, setUser] = useState<IUser | null>(null)
     const [isPageLoading, setIsPageLoading] = useState<boolean>(false)
-    const [cart, setCart] = useState<ICartItem[]>([])
+    const [cart, setCart] = useState<ICart | null>(null)
     const [cartSum, setCartSum] = useState<number>(0)
     const { children } = props
     return (

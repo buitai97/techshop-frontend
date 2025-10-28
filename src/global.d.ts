@@ -2,16 +2,16 @@ export { }
 
 declare global {
     interface IProduct {
-        detailDesc: string,
-        brand: string,
         id: number,
-        image: string,
         name: string,
         price: number,
         quantity: number,
-        shortDesc: string,
+        detailDesc?: string,
+        brand?: string,
+        image?: string,
+        shortDesc?: string,
         sold?: number,
-        category: string
+        category?: string
     }
     interface IUser {
         id: number,
@@ -27,11 +27,13 @@ declare global {
     }
 
     interface ICart {
+        cartId: number,
         userId: number,
-        items: ICartItem[]
+        cartItems: ICartItem[]
     }
 
     interface ICartItem {
+        id: number,
         product: IProduct,
         quantity: number
     }

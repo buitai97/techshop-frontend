@@ -61,7 +61,9 @@ const ClientHeader = () => {
                 <div className="flex">
                     <div className="mr-5">
                         <Badge count={cartSum} size="small">
-                            <ShoppingCartOutlined className="text-xl cursor-pointer" />
+                            <Link to="/cart" style={{ color: "black" }}>
+                                <ShoppingCartOutlined className="text-xl cursor-pointer" />
+                            </Link>
                         </Badge>
                     </div>
                     <Dropdown
