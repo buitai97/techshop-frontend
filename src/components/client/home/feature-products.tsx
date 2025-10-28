@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Card, Row, Col, Button, Badge, Typography, Tag, message, Spin, Flex } from 'antd';
 import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { getProductsAPI } from '@/services/api';
+import { addToCartAPI, getProductsAPI } from '@/services/api';
+import { useAppContext } from '@/context/app.provider';
 
 const { Title, Text, Paragraph } = Typography;
 
 const FeatureProducts = () => {
+    const { setCartSum } = useAppContext();
     const [products, setProducts] = useState<IProduct[]>();
     const [dataLoading, setDataLoading] = useState(false);
     useEffect(() => {
@@ -24,13 +26,10 @@ const FeatureProducts = () => {
 
     const handleAddToCart = async (product: IProduct) => {
         setLoading((prev: any) => ({ ...prev, [product.id]: true }));
-
-
-        // Simulate API call
-        setTimeout(() => {
-            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
-            message.success(`${product.name} added to cart!`);
-        }, 1000);
+        setCartSum((prev: number) => prev + 1);
+        const res = await addToCartAPI(product.id, 1);
+        setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+        message.success(`${product.name} added to cart!`);
     };
 
     const cardActions = (product: IProduct) => [
@@ -77,8 +76,8 @@ const FeatureProducts = () => {
                                 xl={8}
                             >
                                 <Badge.Ribbon
-                                    text={product.target}
-                                    className={product.target ? 'block' : 'hidden'}
+                                    text={product.category}
+                                    className={product.category ? 'block' : 'hidden'}
                                 >
                                     <Card
                                         hoverable
@@ -102,7 +101,7 @@ const FeatureProducts = () => {
                                                 color="blue"
                                                 className="mb-3 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider"
                                             >
-                                                {product.factory}
+                                                {product.brand}
                                             </Tag>
 
                                             {/* Product Title */}

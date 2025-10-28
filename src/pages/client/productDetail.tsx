@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { ShoppingCart, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import { useParams } from 'react-router';
-import { getProductAPI } from '@/services/api';
+import { addToCartAPI, getProductAPI } from '@/services/api';
+import { useAppContext } from '@/context/app.provider';
+import { Button, message } from 'antd';
 
 export default function ProductDetailPage() {
     const [quantity, setQuantity] = useState(1);
     const { id } = useParams()
     const [product, setProduct] = useState<IProduct>()
-
+    const { setCartSum } = useAppContext();
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchProduct = async () => {
             const res = await getProductAPI(+id!)
@@ -24,6 +27,14 @@ export default function ProductDetailPage() {
             setQuantity(newQuantity);
         }
     };
+
+    const handleAddToCart = async (product: IProduct | undefined, quantity: number) => {
+        setLoading(true);
+        setCartSum((prev: number) => prev + 1);
+        await addToCartAPI(product!.id, quantity);
+        setLoading(false);
+        message.success(`${product?.name} added to cart!`);
+    }
 
 
     return (
@@ -65,12 +76,12 @@ export default function ProductDetailPage() {
                             </div>
                             <div>
                                 <span className='text-2xl'> Category: </span>
-                                <span className='text-gray-600 text-xl'> {product?.target}</span>
+                                <span className='text-gray-600 text-xl'> {product?.category}</span>
                             </div>
 
                             <div className='my-3'>
                                 <span className='text-2xl'> Brand: </span>
-                                <span className='text-gray-600 text-xl'> {product?.factory}</span>
+                                <span className='text-gray-600 text-xl'> {product?.brand}</span>
                             </div>
 
                             <p className="text-gray-600 leading-relaxed">{product?.detailDesc}</p>
@@ -98,10 +109,14 @@ export default function ProductDetailPage() {
 
                         {/* Action Buttons */}
                         <div className="flex gap-3">
-                            <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer">
+                            <Button
+                                type="primary"
+                                onClick={() => handleAddToCart(product, quantity)}
+                                loading={loading}
+                            >
                                 <ShoppingCart className="w-5 h-5" />
                                 Add to Cart
-                            </button>
+                            </Button>
                         </div>
 
                         {/* Features */}

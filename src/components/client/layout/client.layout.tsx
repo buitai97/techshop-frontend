@@ -4,20 +4,27 @@ import { useAppContext } from "@context/app.provider"
 import { Spin } from "antd"
 import ClientFooter from "./client.footer"
 import ClientHeader from "./client.header"
-import { fetchAccountAPI } from "@/services/api"
+import { fetchAccountAPI, fetchCartAPI } from "@/services/api"
 
 const ClientLayout = () => {
-    const { setUser, isPageLoading, setIsPageLoading, setIsAuthenticated } = useAppContext()
+    const { setCart, setUser, isPageLoading, setIsPageLoading, setIsAuthenticated, setCartSum } = useAppContext()
     useEffect(() => {
         const initUser = async () => {
             setIsPageLoading(true)
+
             const accessToken = localStorage.getItem("accessToken")
             if (accessToken) {
-                const res = await fetchAccountAPI()
-                const user = res?.data?.data?.user
+                const resUser = await fetchAccountAPI()
+                const user = resUser?.data?.data?.user as IUser
+                const resCart = await fetchCartAPI()
+                const cart = resCart.data
                 if (user) {
                     setUser({ id: user.id, username: user.username, name: user.name, email: user.email, avatar: user.avatar, role: user.role })
                     setIsAuthenticated(true)
+                }
+                if (cart) {
+                    setCart(cart ?? [])
+                    setCartSum(cart.reduce((sum: number, item: any) => sum + item.quantity, 0))
                 }
             }
             setIsPageLoading(false)

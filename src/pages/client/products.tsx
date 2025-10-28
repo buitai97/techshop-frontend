@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Card, Row, Col, Button, Badge, Typography, Tag, message, Slider, Divider, Checkbox, Input, Pagination, Spin, Flex } from 'antd';
 import { LoadingOutlined, SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { getProductsAPI } from '@/services/api';
+import { addToCartAPI, getProductsAPI } from '@/services/api';
 import { useNavigate } from 'react-router';
+import { useAppContext } from '@/context/app.provider';
 
 const { Title, Text, Paragraph } = Typography;
 const ProductsPage = () => {
+    const { setCartSum } = useAppContext();
     const [products, setProducts] = useState<IProduct[]>();
     const [page, setPage] = useState<number>(1)
     const [total, setTotal] = useState<number>(0)
@@ -14,13 +16,13 @@ const ProductsPage = () => {
     const navigate = useNavigate()
 
     // filter states
-    const [selectedFactories, setSelectedFactories] = useState<string[]>([]);
+    const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 3000]);
     const [searchTerm, setSearchTerm] = useState('');
     const [inStockOnly, setInStockOnly] = useState(false);
 
-    const factories = ["ASUS", "DELL", "LENOVO", "APPLE", "LG", "ACER"]
+    const brands = ["ASUS", "DELL", "LENOVO", "APPLE", "LG", "ACER"]
 
     const categories = ['GAMING', "OFFICE", "GRAPHIC", "COMPACT"]
 
@@ -28,18 +30,18 @@ const ProductsPage = () => {
 
         const fetchProducts = async () => {
             setDataLoading(true);
-            const res = await getProductsAPI(page, 8, inStockOnly, selectedFactories, selectedCategories, priceRange)
+            const res = await getProductsAPI(page, 8, inStockOnly, selectedBrands, selectedCategories, priceRange)
             setProducts(res.data.products)
             setTotal(res.data.count)
             setDataLoading(false);
         }
         fetchProducts()
 
-    }, [page, inStockOnly, priceRange, selectedFactories, selectedCategories])
+    }, [page, inStockOnly, priceRange, selectedBrands, selectedCategories])
 
 
-    const handleFactoryChange = (checkedValues: any) => {
-        setSelectedFactories([...checkedValues]);
+    const handleBrandChange = (checkedValues: any) => {
+        setSelectedBrands([...checkedValues]);
         setPage(1)
     };
 
@@ -49,7 +51,7 @@ const ProductsPage = () => {
     };
 
     const clearFilters = () => {
-        setSelectedFactories([])
+        setSelectedBrands([])
         setSelectedCategories([])
         setPriceRange([0, 3000])
         setSearchTerm('');
@@ -57,14 +59,12 @@ const ProductsPage = () => {
     };
 
     const handleAddToCart = async (product: IProduct) => {
+
         setLoading((prev: any) => ({ ...prev, [product.id]: true }));
-
-
-        // Simulate API call
-        setTimeout(() => {
-            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
-            message.success(`${product.name} added to cart!`);
-        }, 1000);
+        setCartSum((prev: number) => prev + 1);
+        const res = await addToCartAPI(product.id, 1);
+        setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+        message.success(`${product.name} added to cart!`);
     };
 
 
@@ -117,13 +117,13 @@ const ProductsPage = () => {
                         <div className="mb-6">
                             <Text strong className="block mb-3">Brand</Text>
                             <Checkbox.Group
-                                value={selectedFactories}
-                                onChange={handleFactoryChange}
+                                value={selectedBrands}
+                                onChange={handleBrandChange}
                                 className="flex flex-col gap-2"
                             >
-                                {factories.map(factory => (
-                                    <Checkbox key={factory} value={factory}>
-                                        {factory}
+                                {brands.map(brand => (
+                                    <Checkbox key={brand} value={brand}>
+                                        {brand}
                                     </Checkbox>
                                 ))}
                             </Checkbox.Group>
@@ -198,8 +198,8 @@ const ProductsPage = () => {
                                         xl={6}
                                     >
                                         <Badge.Ribbon
-                                            text={product.target}
-                                            className={product.target ? 'block' : 'hidden'}
+                                            text={product.category}
+                                            className={product.category ? 'block' : 'hidden'}
                                         >
                                             <Card
                                                 hoverable
@@ -225,7 +225,7 @@ const ProductsPage = () => {
                                                         color="blue"
                                                         className="mb-3 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider"
                                                     >
-                                                        {product.factory}
+                                                        {product.brand}
                                                     </Tag>
 
                                                     <Title

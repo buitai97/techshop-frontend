@@ -3,7 +3,7 @@ export { }
 declare global {
     interface IProduct {
         detailDesc: string,
-        factory: string,
+        brand: string,
         id: number,
         image: string,
         name: string,
@@ -11,7 +11,7 @@ declare global {
         quantity: number,
         shortDesc: string,
         sold?: number,
-        target: null
+        category: string
     }
     interface IUser {
         id: number,
@@ -24,5 +24,15 @@ declare global {
             name: string,
             description: string
         }
+    }
+
+    interface ICart {
+        userId: number,
+        items: ICartItem[]
+    }
+
+    interface ICartItem {
+        product: IProduct,
+        quantity: number
     }
 }

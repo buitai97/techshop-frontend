@@ -1,5 +1,5 @@
-import { MenuOutlined } from "@ant-design/icons";
-import { Dropdown, Layout, Space, type MenuProps } from "antd";
+import { MenuOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { Badge, Dropdown, Layout, Space, type MenuProps } from "antd";
 import { useAppContext } from "@/context/app.provider";
 import { Link, useNavigate } from "react-router";
 
@@ -7,9 +7,9 @@ const { Header } = Layout;
 
 
 const ClientHeader = () => {
-    const { user, setUser, setIsAuthenticated } = useAppContext()
+    const { user, setUser, setIsAuthenticated, cartSum } = useAppContext()
+
     const navigate = useNavigate()
-    console.log(user)
     const handleLogout = async () => {
         setUser(null);
         setIsAuthenticated(false)
@@ -58,16 +58,23 @@ const ClientHeader = () => {
 
 
             {user ? (
+                <div className="flex">
+                    <div className="mr-5">
+                        <Badge count={cartSum} size="small">
+                            <ShoppingCartOutlined className="text-xl cursor-pointer" />
+                        </Badge>
+                    </div>
+                    <Dropdown
+                        menu={{ items }}
+                        trigger={['click']}
+                        className="cursor-pointer text-2xl"
+                    >
+                        <Space>
+                            <MenuOutlined />
+                        </Space>
+                    </Dropdown>
+                </div>
 
-                <Dropdown
-                    menu={{ items }}
-                    trigger={['click']}
-                    className="cursor-pointer text-2xl"
-                >
-                    <Space>
-                        <MenuOutlined />
-                    </Space>
-                </Dropdown>
             ) :
                 <Link className="text-xl !text-gray-500" to="/login">Login</Link>
             }
