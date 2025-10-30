@@ -37,4 +37,8 @@ declare global {
         product: IProduct,
         quantity: number
     }
+
+    interface IOrder{
+        
+    }
 }

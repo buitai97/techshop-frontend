@@ -1,10 +1,11 @@
-import { Carousel, Col, Row } from "antd";
+import { Button, Carousel, Col, Row } from "antd";
 import { Typography } from "antd";
 import banner1 from "@/assets/hero-img-1.jpg";
 import banner2 from "@/assets/hero-img-2.jpg";
 import heroImg from "@/assets/hero-img.jpg"
 import { useMediaQuery } from "react-responsive";
 import FeatureProducts from "@/components/client/home/feature-products";
+import { useNavigate } from "react-router";
 
 const images = [
     banner1,
@@ -12,6 +13,7 @@ const images = [
 ];
 
 const ClientHomePage = () => {
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery({ maxWidth: 768 });
     return (
         <div>
@@ -52,9 +54,9 @@ const ClientHomePage = () => {
 
             </div>
             <div className="px-10 py-10">
-                
                 <FeatureProducts />
             </div>
+            <div className="flex justify-center mb-5"><Button onClick={() => { navigate('/products') }} type="primary" className="w-35" size="large">View All</Button></div>
         </div>
 
     )

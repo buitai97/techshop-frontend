@@ -11,13 +11,13 @@ const ClientLayout = () => {
     useEffect(() => {
         const initUser = async () => {
             setIsPageLoading(true)
-
             const accessToken = localStorage.getItem("accessToken")
             if (accessToken) {
                 const resUser = await fetchAccountAPI()
                 const user = resUser?.data?.data?.user as IUser
                 const resCart = await fetchCartAPI()
                 const cart = resCart.data
+
                 if (user) {
                     setUser({ id: user.id, username: user.username, name: user.name, email: user.email, avatar: user.avatar, role: user.role })
                     setIsAuthenticated(true)

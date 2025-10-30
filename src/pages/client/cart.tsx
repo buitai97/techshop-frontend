@@ -23,6 +23,7 @@ const CartPage = () => {
 
     const updateQuantity = async (id: number, quantity: number) => {
         if (quantity < 1) return
+
         setCart((prev: ICart | null) => {
             if (!prev) return null;
             return {
@@ -30,8 +31,9 @@ const CartPage = () => {
                 cartItems: prev.cartItems.map(item => item.id === id ? { ...item, quantity } : item)
             };
         });
-        // Call API to update cart item quantity
+
         await updateCartItemAPI(id, quantity);
+
         setCartSum((prev: number) => {
             if (!cart) return prev;
             const item = cart.cartItems.find(item => item.id === id);
@@ -40,7 +42,7 @@ const CartPage = () => {
         });
     };
 
-    const removeItem = (id: number) => {
+    const removeItem = async (id: number) => {
         setCart((prev: ICart | null) => {
             if (!prev) return null;
             return {
@@ -48,6 +50,14 @@ const CartPage = () => {
                 cartItems: prev.cartItems.filter(item => item.id !== id)
             };
         });
+        setCartSum((prev: number) => {
+            if (!cart) return prev;
+            const item = cart.cartItems.find(item => item.id === id);
+            if (!item) return prev;
+            return prev - item.quantity;
+        });
+        await updateCartItemAPI(id, 0);
+
     };
 
     const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
