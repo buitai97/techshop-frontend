@@ -20,6 +20,7 @@ import Product from './pages/admin/product';
 import ProtectedRoute from './components/auth/protectedRoute';
 import CartPage from './pages/client/cart';
 import CheckoutPage from './pages/client/checkout';
+import ThanksPage from './pages/client/thankyou';
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: "checkout",
                 element: <CheckoutPage />
+            },
+            {
+                path: "thanks",
+                element: <ThanksPage />
             }
         ]
     },

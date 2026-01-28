@@ -202,6 +202,7 @@ const CartPage = () => {
                                             size="large"
                                             block
                                             className="mt-6 h-12 text-base font-semibold"
+                                            onClick={() => navigate("/checkout")}
                                         >
                                             Proceed to Checkout
                                         </Button>

@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { Form, Input, Button, Radio, Divider, Space, Card, message } from 'antd';
 import { CreditCardOutlined, LockOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useAppContext } from '@/context/app.provider';
+import { emptyCartAPI } from '@/services/api';
+import { useNavigate } from 'react-router';
 
 const CheckoutPage = () => {
     const [form] = Form.useForm();
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [loading, setLoading] = useState(false);
-    const { cart } = useAppContext();
+    const { cart, setCart } = useAppContext();
+    const { setCartSum } = useAppContext();
+    const navigate = useNavigate();
 
     const cartItems: ICartItem[] = cart?.cartItems || [];
 
@@ -20,6 +24,14 @@ const CheckoutPage = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
+            form.resetFields();
+            setPaymentMethod('card');
+            emptyCartAPI();
+            setCart({ cartItems: [], cartId: 0, userId: 0 });
+            setCartSum(0);
+
+            setLoading(false);
+            navigate("/thanks");
             message.success('Order placed successfully!');
         }, 1500);
     };
