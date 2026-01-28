@@ -23,7 +23,11 @@ const ClientLayout = () => {
                     setIsAuthenticated(true)
                 }
                 if (cart) {
-                    
+                    setCart(cart ?? {
+                        items: [],
+                        cartId: 0,
+                        userId: 0
+                    })
                     setCartSum(cart.cartItems.reduce((sum: number, item: any) => sum + item.quantity, 0));
                 }
             }
