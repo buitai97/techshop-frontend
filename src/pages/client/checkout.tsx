@@ -16,7 +16,7 @@ const CheckoutPage = () => {
     const shipping = subtotal > 100 ? 0 : 10;
     const total = subtotal + tax + shipping;
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
