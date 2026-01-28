@@ -24,7 +24,6 @@ const LoginPage = () => {
                 const accessToken = res.data.accessToken
                 localStorage.setItem("accessToken", accessToken)
                 const currentUser = await fetchAccountAPI()
-                console.log(res)
                 const user = currentUser?.data?.data?.user
                 setUser(user as IUser)
                 setIsAuthenticated(true)

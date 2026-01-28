@@ -17,9 +17,8 @@ const logoutAPI = async () => {
 
 const fetchAccountAPI = async () => {
     const url = "/api/account"
-    return await axios.get(url)
-
-
+    const res = await axios.get(url)
+    return res
 }
 const getUsersAPI = async () => {
     const url = "/api/users"

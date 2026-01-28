@@ -21,7 +21,6 @@ const CheckoutPage = () => {
         setTimeout(() => {
             setLoading(false);
             message.success('Order placed successfully!');
-            console.log('Order details:', values);
         }, 1500);
     };
 
