@@ -67,26 +67,20 @@ const CheckoutPage = () => {
                                 onFinish={handleSubmit}
                                 initialValues={{ paymentMethod: 'card' }}
                             >
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <Form.Item
-                                        name="firstName"
-                                        label="First Name"
-                                        rules={[{ required: true, message: 'Please enter your first name' }]}
-                                    >
-                                        <Input placeholder="John" size="large" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="lastName"
-                                        label="Last Name"
-                                        rules={[{ required: true, message: 'Please enter your last name' }]}
-                                    >
-                                        <Input placeholder="Doe" size="large" />
-                                    </Form.Item>
-                                </div>
+                                <Form.Item
+                                    name="name"
+                                    label="Name"
+                                    key={"name"}
+                                    rules={[{ required: true, message: 'Please enter your name' }]}
+                                >
+                                    <Input placeholder="John" size="large" />
+                                </Form.Item>
+
 
                                 <Form.Item
                                     name="email"
                                     label="Email"
+                                    key={"email"}
                                     rules={[
                                         { required: true, message: 'Please enter your email' },
                                         { type: 'email', message: 'Please enter a valid email' }
@@ -98,6 +92,7 @@ const CheckoutPage = () => {
                                 <Form.Item
                                     name="address"
                                     label="Street Address"
+                                    key={"address"}
                                     rules={[{ required: true, message: 'Please enter your address' }]}
                                 >
                                     <Input placeholder="123 Main Street" size="large" />
@@ -107,6 +102,7 @@ const CheckoutPage = () => {
                                     <Form.Item
                                         name="city"
                                         label="City"
+                                        key={"city"}
                                         rules={[{ required: true, message: 'Required' }]}
                                     >
                                         <Input placeholder="New York" size="large" />
@@ -114,6 +110,7 @@ const CheckoutPage = () => {
                                     <Form.Item
                                         name="state"
                                         label="State"
+                                        key={"state"}
                                         rules={[{ required: true, message: 'Required' }]}
                                     >
                                         <Input placeholder="NY" size="large" />
@@ -121,6 +118,7 @@ const CheckoutPage = () => {
                                     <Form.Item
                                         name="zipCode"
                                         label="ZIP Code"
+                                        key={"zipCode"}
                                         rules={[{ required: true, message: 'Required' }]}
                                     >
                                         <Input placeholder="10001" size="large" />
@@ -139,9 +137,6 @@ const CheckoutPage = () => {
                                         <Space direction="vertical" className="w-full">
                                             <Radio value="card" className="w-full p-3 rounded hover:border-blue-400 transition-colors">
                                                 <span className="font-medium">Credit Card</span>
-                                            </Radio>
-                                            <Radio value="paypal" className="w-full p-3 rounded hover:border-blue-400 transition-colors">
-                                                <span className="font-medium">PayPal</span>
                                             </Radio>
                                         </Space>
                                     </Radio.Group>

@@ -57,7 +57,6 @@ const CartPage = () => {
             return prev - item.quantity;
         });
         await updateCartItemAPI(id, 0);
-        console.log(cart);
     };
 
     const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
@@ -103,7 +102,6 @@ const CartPage = () => {
                         </Card>
                     )
                         :
-
                         (
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                 {/* Cart Items */}
