@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, Button, Radio, Divider, Space, Card, message } from 'antd';
 import { CreditCardOutlined, LockOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useAppContext } from '@/context/app.provider';
-import { emptyCartAPI } from '@/services/api';
+import { emptyCartAPI, fetchCartAPI } from '@/services/api';
 import { useNavigate } from 'react-router';
 
 const CheckoutPage = () => {
     const [form] = Form.useForm();
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [loading, setLoading] = useState(false);
-    const { cart, setCart } = useAppContext();
+    const [cart, setCart] = useState<ICart | null>(null);
     const { setCartSum } = useAppContext();
     const navigate = useNavigate();
-
     const cartItems: ICartItem[] = cart?.cartItems || [];
+
+    useEffect(() => {
+
+        const fetchCartItems = async () => {
+            setLoading(true)
+            const response = await fetchCartAPI();
+            setCart(response.data);
+            setLoading(false);
+        };
+        fetchCartItems();
+    }, []);
 
     const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
     const tax = subtotal * 0.08;
@@ -29,7 +39,6 @@ const CheckoutPage = () => {
             emptyCartAPI();
             setCart({ cartItems: [], cartId: 0, userId: 0 });
             setCartSum(0);
-
             setLoading(false);
             navigate("/thanks");
             message.success('Order placed successfully!');

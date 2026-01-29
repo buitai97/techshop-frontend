@@ -57,7 +57,7 @@ const CartPage = () => {
             return prev - item.quantity;
         });
         await updateCartItemAPI(id, 0);
-
+        console.log(cart);
     };
 
     const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
