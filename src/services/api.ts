@@ -65,4 +65,8 @@ const deleteUserAPI = async (id: number) => {
     return await axios.delete(`/api/users/${id}`)
 }
 
-export { emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }
+const createOrderAPI = async (name: string, address: IAddress, email: string, orderItems: any[], paymentDetails: IPaymentDetails) => {
+    return await axios.post("/api/orders", { name, address, email, orderItems, paymentDetails })
+}
+
+export { createOrderAPI, emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }

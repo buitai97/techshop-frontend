@@ -38,7 +38,21 @@ declare global {
         quantity: number
     }
 
-    interface IOrder{
-        
+    interface IAddress {
+        street: string,
+        city: string,
+        state: string,
+        zipCode: string
+    }
+
+    interface IPaymentDetails {
+        cardNumber: string,
+        cvv: string,
+        expiry: string,
+        paymentMethod: string
+    }
+
+    interface IOrder {
+
     }
 }

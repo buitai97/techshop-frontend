@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Form, Input, Button, Radio, Divider, Space, Card, message } from 'antd';
 import { CreditCardOutlined, LockOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useAppContext } from '@/context/app.provider';
-import { emptyCartAPI, fetchCartAPI } from '@/services/api';
+import { createOrderAPI, fetchCartAPI } from '@/services/api';
 import { useNavigate } from 'react-router';
 
 const CheckoutPage = () => {
@@ -24,23 +24,37 @@ const CheckoutPage = () => {
         };
         fetchCartItems();
     }, []);
+    console.log(cart)
 
     const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
     const tax = subtotal * 0.08;
-    const shipping = subtotal > 100 ? 0 : 10;
+    const shipping = 0;
     const total = subtotal + tax + shipping;
 
     const handleSubmit = () => {
-        setLoading(true);
+        //setLoading(true);
+        const values = form.getFieldsValue();
+        const address: IAddress = {
+            street: values.street,
+            city: values.city,
+            state: values.state,
+            zipCode: values.zipCode
+        };
+        const paymentDetails: IPaymentDetails = {
+            cardNumber: values.cardNumber,
+            cvv: values.cvv,
+            expiry: values.expiry,
+            paymentMethod: paymentMethod
+        };
+        createOrderAPI(values.name, address, values.email, cartItems, paymentDetails);
         setTimeout(() => {
-            setLoading(false);
-            form.resetFields();
-            setPaymentMethod('card');
-            emptyCartAPI();
-            setCart({ cartItems: [], cartId: 0, userId: 0 });
-            setCartSum(0);
-            setLoading(false);
-            navigate("/thanks");
+            //setLoading(true);
+            //form.resetFields();
+            //emptyCartAPI();
+            //setCart({ cartItems: [], cartId: 0, userId: 0 });
+            //setCartSum(0);
+            //setLoading(false);
+            //navigate("/thanks");
             message.success('Order placed successfully!');
         }, 1500);
     };
@@ -90,9 +104,9 @@ const CheckoutPage = () => {
                                 </Form.Item>
 
                                 <Form.Item
-                                    name="address"
+                                    name="street"
                                     label="Street Address"
-                                    key={"address"}
+                                    key={"street"}
                                     rules={[{ required: true, message: 'Please enter your address' }]}
                                 >
                                     <Input placeholder="123 Main Street" size="large" />
