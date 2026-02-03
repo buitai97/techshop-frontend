@@ -28,6 +28,7 @@ const CheckoutPage = () => {
             setLoading(true)
             const response = await fetchCartAPI();
             const data = response.data as ICart;
+            setCart(data);
             const items: TOrderItem[] = data.cartItems.map((item: ICartItem) => ({
                 productId: item.product.id,
                 quantity: item.quantity,
@@ -62,7 +63,7 @@ const CheckoutPage = () => {
         await createOrderAPI(values.name, address, values.email, total, orderItems, paymentDetails);
         form.resetFields();
         await emptyCartAPI();
-        //setCart({ cartItems: [], cartId: 0, userId: 0 });
+        setCart({ cartItems: [], cartId: 0, userId: 0 });
         setCartSum(0);
         setLoading(false);
         navigate("/thanks");
