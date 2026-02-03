@@ -47,8 +47,8 @@ declare global {
 
     interface IPaymentDetails {
         cardNumber: string,
-        cvv: string,
-        expiry: string,
+        CVV: string,
+        expDate: string,
         paymentMethod: string
     }
 

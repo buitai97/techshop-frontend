@@ -2,14 +2,22 @@ import { useEffect, useState } from 'react';
 import { Form, Input, Button, Radio, Divider, Space, Card, message } from 'antd';
 import { CreditCardOutlined, LockOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useAppContext } from '@/context/app.provider';
-import { createOrderAPI, fetchCartAPI } from '@/services/api';
+import { createOrderAPI, emptyCartAPI, fetchCartAPI } from '@/services/api';
 import { useNavigate } from 'react-router';
+
+type TOrderItem = {
+    productId: number;
+    quantity: number;
+    price: number;
+
+}
 
 const CheckoutPage = () => {
     const [form] = Form.useForm();
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [loading, setLoading] = useState(false);
     const [cart, setCart] = useState<ICart | null>(null);
+    const [orderItems, setOrderItems] = useState<TOrderItem[]>([]);
     const { setCartSum } = useAppContext();
     const navigate = useNavigate();
     const cartItems: ICartItem[] = cart?.cartItems || [];
@@ -19,20 +27,25 @@ const CheckoutPage = () => {
         const fetchCartItems = async () => {
             setLoading(true)
             const response = await fetchCartAPI();
-            setCart(response.data);
+            const data = response.data as ICart;
+            const items: TOrderItem[] = data.cartItems.map((item: ICartItem) => ({
+                productId: item.product.id,
+                quantity: item.quantity,
+                price: item.product.price
+            }));
+            setOrderItems(items);
             setLoading(false);
         };
         fetchCartItems();
     }, []);
-    console.log(cart)
-
-    const subtotal = cart?.cartItems.reduce((sum: number, item: ICartItem) => sum + (item.product.price * item.quantity), 0) || 0;
+    const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const tax = subtotal * 0.08;
     const shipping = 0;
     const total = subtotal + tax + shipping;
 
-    const handleSubmit = () => {
-        //setLoading(true);
+    const handleSubmit = async () => {
+
+        setLoading(true);
         const values = form.getFieldsValue();
         const address: IAddress = {
             street: values.street,
@@ -42,21 +55,18 @@ const CheckoutPage = () => {
         };
         const paymentDetails: IPaymentDetails = {
             cardNumber: values.cardNumber,
-            cvv: values.cvv,
-            expiry: values.expiry,
+            CVV: values.CVV,
+            expDate: values.expDate,
             paymentMethod: paymentMethod
         };
-        createOrderAPI(values.name, address, values.email, cartItems, paymentDetails);
-        setTimeout(() => {
-            //setLoading(true);
-            //form.resetFields();
-            //emptyCartAPI();
-            //setCart({ cartItems: [], cartId: 0, userId: 0 });
-            //setCartSum(0);
-            //setLoading(false);
-            //navigate("/thanks");
-            message.success('Order placed successfully!');
-        }, 1500);
+        await createOrderAPI(values.name, address, values.email, total, orderItems, paymentDetails);
+        form.resetFields();
+        await emptyCartAPI();
+        //setCart({ cartItems: [], cartId: 0, userId: 0 });
+        setCartSum(0);
+        setLoading(false);
+        navigate("/thanks");
+        message.success('Order placed successfully!');
     };
 
     return (
@@ -173,14 +183,14 @@ const CheckoutPage = () => {
 
                                         <div className="grid grid-cols-2 gap-4">
                                             <Form.Item
-                                                name="expiry"
+                                                name="expDate"
                                                 label="Expiry Date"
                                                 rules={[{ required: true, message: 'Required' }]}
                                             >
                                                 <Input placeholder="MM/YY" size="large" maxLength={5} />
                                             </Form.Item>
                                             <Form.Item
-                                                name="cvv"
+                                                name="CVV"
                                                 label="CVV"
                                                 rules={[{ required: true, message: 'Required' }]}
                                             >
