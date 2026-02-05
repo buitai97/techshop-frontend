@@ -37,8 +37,8 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
         setFileList([]);
         setFiles([]);
         refetchProducts();
-        //form.resetFields();
-        //closeModal();
+        form.resetFields();
+        closeModal();
     }
 
     const handleFileChange: UploadProps['onChange'] = (info: UploadChangeParam) => {
@@ -92,7 +92,7 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
                         onChange={handleFileChange}
                     >
                         {fileList.length < 1 && (
-                            <button>
+                            <button type="button">
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Upload</div>
                             </button>

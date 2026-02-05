@@ -45,7 +45,7 @@ export default function ProductDetailPage() {
                     <div className="space-y-4">
                         <div className="relative bg-gray-100 rounded-lg overflow-hidden group">
                             <img
-                                src={`${import.meta.env.VITE_API_BASE_URL}/images/product/${product?.image}`}
+                                src={`${product?.image}`}
                                 alt={product?.name}
                                 className="w-full h-full object-cover"
                             />
