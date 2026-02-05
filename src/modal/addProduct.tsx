@@ -1,6 +1,6 @@
 import { createProductAPI } from "@/services/api";
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Image, Input, message, Modal, Upload, type UploadFile, type UploadProps } from "antd"
+import { Form, Input, message, Modal, Upload, type UploadFile, type UploadProps } from "antd"
 import { useForm } from "antd/es/form/Form";
 import type { UploadChangeParam } from "antd/es/upload";
 import { useState } from "react";
@@ -30,7 +30,7 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
         files.forEach(file => {
             formData.append("image", file);
         });
-        
+
         await createProductAPI(formData);
         message.success("Product created");
 
