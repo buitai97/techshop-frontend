@@ -1,18 +1,37 @@
-import { getProductsAPI } from "@/services/api"
+import AddProductModal from "@/modal/addProduct"
+import { deleteProductAPI, getProductsAPI } from "@/services/api"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
-import { Space, Table, type TableProps } from "antd"
+import { Button, Space, Table, type TableProps } from "antd"
 import { useEffect, useState } from "react"
 
 const ProductTable = () => {
     const [data, setData] = useState<{ count: number, products: IProduct[], pageSize: number }>()
     const [currentPage, setCurrentPage] = useState<number>(1)
+    const [showAddProductModal, setShowAddProductModal] = useState<boolean>(false)
+
+    const fetchProducts = async () => {
+        const res = await getProductsAPI(currentPage, 5, false)
+        setData(res.data)
+    }
     useEffect(() => {
-        const fetchProducts = async () => {
-            const res = await getProductsAPI(currentPage, 5, false)
-            setData(res.data)
-        }
+
         fetchProducts()
     }, [currentPage])
+
+    const handleAddProduct = () => {
+        // open modal to add product
+        setShowAddProductModal(true);
+    };
+
+    const closeAddProductModal = () => {
+        setShowAddProductModal(false);
+    }
+
+    const handleDeleteProduct = async (id: number) => {
+        await deleteProductAPI(id);
+        await fetchProducts();
+    }
+
     const columns: TableProps<IProduct>['columns'] = [
         {
             title: 'ID',
@@ -38,10 +57,10 @@ const ProductTable = () => {
         {
             title: 'Action',
             key: 'action',
-            render: (_) => (
+            render: (_, record, __) => (
                 <Space size="middle">
                     <EditOutlined style={{ color: "orange", cursor: "pointer" }} />
-                    <DeleteOutlined style={{ color: "red", cursor: "pointer" }} />
+                    <DeleteOutlined style={{ color: "red", cursor: "pointer" }} onClick={() => { handleDeleteProduct(record.id) }} />
                 </Space>
             ),
         },
@@ -50,7 +69,13 @@ const ProductTable = () => {
 
     return (
         <div style={{ margin: "10px" }}>
-            <h3>Table User</h3>
+            <p className="text-2xl font-bold mb-4">Product Table</p>
+            <Button type="primary" className="mb-4" onClick={() => { handleAddProduct() }}    > + Add Product</Button>
+            <AddProductModal
+                open={showAddProductModal}
+                handleOk={closeAddProductModal}
+                handleCancel={closeAddProductModal}
+            />
             <Table
                 dataSource={data?.products}
                 columns={columns}
@@ -63,9 +88,12 @@ const ProductTable = () => {
                         setCurrentPage(pageNumber)
                     }
                 }} />
+
         </div>
     )
 
 }
+
+
 
 export default ProductTable

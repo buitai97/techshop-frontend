@@ -61,6 +61,10 @@ const getProductAPI = async (id: number) => {
     return await axios.get(url)
 }
 
+const deleteProductAPI = async (id: number) => {
+    return await axios.delete(`/api/products/${id}`)
+}
+
 const deleteUserAPI = async (id: number) => {
     return await axios.delete(`/api/users/${id}`)
 }
@@ -69,4 +73,4 @@ const createOrderAPI = async (name: string, address: IAddress, email: string, to
     return await axios.post("/api/orders", { name, address, email, totalPrice, orderItems, paymentDetails })
 }
 
-export { createOrderAPI, emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }
+export { deleteProductAPI,createOrderAPI, emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }

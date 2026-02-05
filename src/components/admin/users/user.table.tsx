@@ -64,7 +64,7 @@ const UserTable = () => {
 
     return (
         <div style={{ margin: "10px" }}>
-            <h3>Table User</h3>
+            <p className="text-2xl font-bold mb-4">User Table</p>
             <Table dataSource={users} columns={columns} rowKey="id" pagination={{ position: ["bottomCenter"] }} />;
         </div>
     )

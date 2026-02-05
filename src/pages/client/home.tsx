@@ -26,7 +26,10 @@ const ClientHomePage = () => {
                 <Row gutter={16} className="m-auto p-10">
                     <Col xs={{ span: 24 }} md={{ span: 14 }}>
                         <Typography className="text-cyan-900" style={{ fontSize: "5vw" }}>
-                            Best Electronics for Your Work and Play
+                            Welcome to Our Store
+                        </Typography>
+                        <Typography className="text-cyan-800 mt-5" style={{ fontSize: "2vw" }}>
+                            Discover the best products at unbeatable prices!
                         </Typography>
                     </Col>
                     <Col xs={{ span: 24 }} md={{ span: 10 }} className="mt-5" >

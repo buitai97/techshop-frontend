@@ -11,7 +11,7 @@ const CartPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
-
+        
         const fetchCartItems = async () => {
             setLoading(true)
             const response = await fetchCartAPI();
