@@ -18,6 +18,8 @@ const ProductTable = () => {
         fetchProducts()
     }, [currentPage])
 
+    
+
     const handleAddProduct = () => {
         // open modal to add product
         setShowAddProductModal(true);
@@ -73,8 +75,8 @@ const ProductTable = () => {
             <Button type="primary" className="mb-4" onClick={() => { handleAddProduct() }}    > + Add Product</Button>
             <AddProductModal
                 open={showAddProductModal}
-                handleOk={closeAddProductModal}
-                handleCancel={closeAddProductModal}
+                closeModal={closeAddProductModal}
+                refetchProducts={fetchProducts}
             />
             <Table
                 dataSource={data?.products}

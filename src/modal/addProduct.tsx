@@ -1,69 +1,102 @@
+import { createProductAPI } from "@/services/api";
 import { PlusOutlined } from "@ant-design/icons";
-import { Form, Image, Input, Modal, Upload, type GetProp, type UploadFile, type UploadProps } from "antd"
+import { Button, Form, Image, Input, message, Modal, Upload, type UploadFile, type UploadProps } from "antd"
+import { useForm } from "antd/es/form/Form";
+import type { UploadChangeParam } from "antd/es/upload";
 import { useState } from "react";
 
 interface AddProductModalProps {
     open: boolean;
-    handleOk: () => void;
-    handleCancel: () => void;
+    closeModal: () => void;
+    refetchProducts: () => void;
 }
 
-const images = [
-    "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg",
-    "https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg",
-    "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE="
-];
+const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalProps) => {
 
-const AddProductModal = ({ open, handleOk, handleCancel }: AddProductModalProps) => {
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [files, setFiles] = useState<File[]>([]);
+    const [form] = useForm();
+    const handleOnFinish = async (values: any) => {
+        const formData = new FormData();
+
+        // append form fields
+        Object.entries(values).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) {
+                formData.append(key, String(value));
+            }
+        });
+
+        // append image
+        files.forEach(file => {
+            formData.append("image", file);
+        });
+        
+        await createProductAPI(formData);
+        message.success("Product created");
+
+        setFileList([]);
+        setFiles([]);
+        refetchProducts();
+        //form.resetFields();
+        //closeModal();
+    }
+
+    const handleFileChange: UploadProps['onChange'] = (info: UploadChangeParam) => {
+        setFileList(info.fileList)
+        const realFiles = info.fileList
+            .map(f => f.originFileObj)
+            .filter(Boolean) as File[];
+
+        setFiles(realFiles);
+    }
     return (
         <div>
             <Modal
                 title="Add Product"
                 open={open}
-                onOk={handleOk}
-                onCancel={handleCancel}
+                onOk={form.submit}
+                onCancel={closeModal}
             >
-                <Form>
-                    <Form.Item label="Product Name">
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleOnFinish}
+                >
+                    <Form.Item label="Product Name" name="name" rules={[{ required: true, message: 'Please enter the product name' }]}>
                         <Input placeholder="Enter product name" />
                     </Form.Item>
-                    <Form.Item label="Price">
+                    <Form.Item label="Price" name="price" rules={[{ required: true, message: 'Please enter the price' }]}   >
                         <Input placeholder="Enter price" />
                     </Form.Item>
-                    <Form.Item label="Quantity">
+                    <Form.Item label="Quantity" name="quantity" rules={[{ required: true, message: 'Please enter the quantity' }]}>
                         <Input placeholder="Enter quantity" />
                     </Form.Item>
-                    <Form.Item label="Brand">
+                    <Form.Item label="Brand" name="brand" rules={[{ required: true, message: 'Please enter the brand' }]}   >
                         <Input placeholder="Enter brand" />
                     </Form.Item>
-                    <Form.Item label="Category">
+                    <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please enter the category' }]}>
                         <Input placeholder="Enter category" />
                     </Form.Item>
-                    <Form.Item label="Short Description">
+                    <Form.Item label="Short Description" name="shortDesc">
                         <Input.TextArea placeholder="Enter short description" />
                     </Form.Item>
-                    <Form.Item label="Full Description">
+                    <Form.Item label="Full Description" name="detailDesc">
                         <Input.TextArea placeholder="Enter full description" />
                     </Form.Item>
 
                     <Upload
-                        multiple
+                        maxCount={1}
                         listType="picture-card"
-                        fileList={fileList}
                         beforeUpload={() => false}
-                        onChange={({ fileList: newFileList }) => {
-                            setFileList(newFileList);
-
-                            const realFiles = newFileList
-                                .map(f => f.originFileObj)
-                                .filter(Boolean) as File[];
-
-                            setFiles(realFiles);
-                        }}
+                        fileList={fileList}
+                        onChange={handleFileChange}
                     >
-                        {fileList.length < 8 && "+ Upload"}
+                        {fileList.length < 1 && (
+                            <button>
+                                <PlusOutlined />
+                                <div style={{ marginTop: 8 }}>Upload</div>
+                            </button>
+                        )}
                     </Upload>
 
 
@@ -72,5 +105,4 @@ const AddProductModal = ({ open, handleOk, handleCancel }: AddProductModalProps)
         </div>
     )
 }
-
 export default AddProductModal;

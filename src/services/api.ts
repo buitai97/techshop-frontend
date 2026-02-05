@@ -61,6 +61,11 @@ const getProductAPI = async (id: number) => {
     return await axios.get(url)
 }
 
+const createProductAPI = async (formData: FormData) => {
+    let url = `/api/products`
+    return await axios.post(url, formData, { headers: { "Content-Type": "application/multipart" } })
+}
+
 const deleteProductAPI = async (id: number) => {
     return await axios.delete(`/api/products/${id}`)
 }
@@ -70,7 +75,8 @@ const deleteUserAPI = async (id: number) => {
 }
 
 const createOrderAPI = async (name: string, address: IAddress, email: string, totalPrice: number, orderItems: any[], paymentDetails: IPaymentDetails) => {
+
     return await axios.post("/api/orders", { name, address, email, totalPrice, orderItems, paymentDetails })
 }
 
-export { deleteProductAPI,createOrderAPI, emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }
+export { createProductAPI, deleteProductAPI, createOrderAPI, emptyCartAPI, updateCartItemAPI, addToCartAPI, fetchCartAPI, loginAPI, fetchAccountAPI, deleteUserAPI, getProductAPI, getUsersAPI, getProductsAPI, registerAPI, logoutAPI }
