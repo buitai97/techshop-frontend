@@ -4,7 +4,6 @@ import { ArrowLeftOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/
 import { Button, Card, Divider, Empty, InputNumber, Spin, Tag } from "antd"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import product from "../admin/product";
 
 const CartPage = () => {
     const { setCartSum } = useAppContext();
@@ -12,7 +11,7 @@ const CartPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
-        
+
         const fetchCartItems = async () => {
             setLoading(true)
             const response = await fetchCartAPI();
