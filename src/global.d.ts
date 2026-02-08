@@ -8,7 +8,7 @@ declare global {
         quantity: number,
         detailDesc?: string,
         brand?: string,
-        image?: string,
+        imageKey?: string,
         shortDesc?: string,
         sold?: number,
         category?: string

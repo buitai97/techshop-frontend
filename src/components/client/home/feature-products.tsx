@@ -85,7 +85,7 @@ const FeatureProducts = () => {
                                             <div className="h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 group">
                                                 <img
                                                     alt={product.name}
-                                                    src={product.image}
+                                                    src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product?.imageKey}`}
                                                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                                                 />
                                             </div>

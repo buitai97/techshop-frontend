@@ -210,7 +210,7 @@ const ProductsPage = () => {
                                                     >
                                                         <img
                                                             alt={product.name}
-                                                            src={product.image}
+                                                            src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product.imageKey}`}
                                                             className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                                                         />
                                                     </div>
@@ -265,9 +265,15 @@ const ProductsPage = () => {
                                     <Text type="secondary">Try adjusting your filters</Text>
                                 </div>
                             )}
-                            <Pagination className="m-5!" align="center" current={page} total={total} onChange={(pageNumber) => {
-                                setPage(pageNumber)
-                            }} />
+                            <Pagination
+                                className="m-5!"
+                                align="center"
+                                current={page}
+                                total={total}
+                                pageSize={8}
+                                onChange={(pageNumber) => {
+                                    setPage(pageNumber)
+                                }} />
                         </Col>
                     )
                 }

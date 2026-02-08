@@ -45,7 +45,7 @@ export default function ProductDetailPage() {
                     <div className="space-y-4">
                         <div className="relative bg-gray-100 rounded-lg overflow-hidden group">
                             <img
-                                src={`${product?.image}`}
+                                src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product?.imageKey}`}
                                 alt={product?.name}
                                 className="w-full h-full object-cover"
                             />

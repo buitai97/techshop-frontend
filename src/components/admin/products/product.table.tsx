@@ -10,7 +10,7 @@ const ProductTable = () => {
     const [showAddProductModal, setShowAddProductModal] = useState<boolean>(false)
 
     const fetchProducts = async () => {
-        const res = await getProductsAPI(currentPage, 5, false)
+        const res = await getProductsAPI(currentPage, 10, false)
         setData(res.data)
     }
     useEffect(() => {
@@ -18,7 +18,7 @@ const ProductTable = () => {
         fetchProducts()
     }, [currentPage])
 
-    
+    console.log(data)
 
     const handleAddProduct = () => {
         // open modal to add product
