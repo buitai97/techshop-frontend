@@ -15,7 +15,7 @@ const Home = () => {
     const [totalProducts, setTotalProducts] = useState<number>(0)
     useEffect(() => {
         const fetchData = async () => {
-            const res1 = await getProductsAPI(1, 1, true)
+            const res1 = await getProductsAPI('', 1, 1, true)
             const res2 = await getUsersAPI()
             setTotalProducts(res1.data.count)
             setTotalUsers(res2.data.count)

@@ -48,10 +48,10 @@ const emptyCartAPI = async () => {
 
 
 
-const getProductsAPI = async (page: number, pageSize: number, inStockOnly: boolean, brands?: string[], targets?: string[], priceRange?: [number, number], sort?: string) => {
+const getProductsAPI = async (searchTerm: string, page: number, pageSize: number, inStockOnly: boolean, brands?: string[], targets?: string[], priceRange?: [number, number], sort?: string) => {
     let url = "/api/products"
     return await axios.get(url, {
-        params: { page, pageSize, brands, targets, priceRange, inStockOnly, sort },
+        params: { searchTerm, page, pageSize, brands, targets, priceRange, inStockOnly, sort },
         paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" })
     })
 }
