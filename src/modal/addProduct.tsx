@@ -1,4 +1,4 @@
-import { createProductAPI } from "@/services/api";
+import { createProductAPI } from "services/api";
 import { PlusOutlined } from "@ant-design/icons";
 import { Form, Input, message, Modal, Upload, type UploadFile, type UploadProps } from "antd"
 import { useForm } from "antd/es/form/Form";

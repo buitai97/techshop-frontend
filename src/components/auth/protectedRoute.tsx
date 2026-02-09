@@ -1,5 +1,5 @@
-import { useAppContext } from "@/context/app.provider";
-import { fetchAccountAPI } from "@/services/api";
+import { useAppContext } from "context/app.provider";
+import { fetchAccountAPI } from "services/api";
 import { Button, Result, Spin } from "antd";
 import { useEffect } from "react";
 import { Link, Outlet } from "react-router";

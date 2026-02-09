@@ -1,4 +1,4 @@
-import { registerAPI } from "@/services/api";
+import { registerAPI } from "services/api";
 import { App, Button, Divider, Form, Input } from "antd"
 import type { FormProps } from 'antd';
 import { Typography } from 'antd';

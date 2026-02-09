@@ -1,4 +1,4 @@
-import { deleteUserAPI, getUsersAPI } from "@/services/api"
+import { deleteUserAPI, getUsersAPI } from "services/api"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Popconfirm, Space, Table, type TableProps } from "antd"
 import { useEffect, useState } from "react"

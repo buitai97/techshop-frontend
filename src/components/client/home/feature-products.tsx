@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Card, Row, Col, Button, Badge, Typography, Tag, message, Spin, Flex } from 'antd';
 import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { addToCartAPI, getProductsAPI } from '@/services/api';
-import { useAppContext } from '@/context/app.provider';
+import { addToCartAPI, getProductsAPI } from 'services/api';
+import { useAppContext } from 'context/app.provider';
 
 const { Title, Text, Paragraph } = Typography;
 

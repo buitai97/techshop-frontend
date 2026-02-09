@@ -1,10 +1,10 @@
 import { Outlet } from "react-router"
 import { useEffect } from "react"
-import { useAppContext } from "@context/app.provider"
+import { useAppContext } from "context/app.provider"
 import { Spin } from "antd"
 import ClientFooter from "./client.footer"
 import ClientHeader from "./client.header"
-import { fetchAccountAPI, fetchCartAPI } from "@/services/api"
+import { fetchAccountAPI, fetchCartAPI } from "services/api"
 
 const ClientLayout = () => {
     const { setCart, setUser, isPageLoading, setIsPageLoading, setIsAuthenticated, setCartSum } = useAppContext()

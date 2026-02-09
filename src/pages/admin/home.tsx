@@ -1,4 +1,4 @@
-import { getProductsAPI, getUsersAPI } from '@/services/api';
+import { getProductsAPI, getUsersAPI } from 'services/api';
 import type { StatisticProps } from 'antd';
 import { Col, Row, Statistic } from 'antd';
 import { useEffect, useState } from 'react';

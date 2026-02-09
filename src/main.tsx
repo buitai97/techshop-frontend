@@ -1,26 +1,26 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import AdminLayout from './components/admin/layout/admin.layout'
+import AdminLayout from 'components/admin/layout/admin.layout'
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import User from '@pages/admin/user';
-import Home from '@/pages/admin/home';
-import ClientHomePage from '@/pages/client/home'
-import LoginPage from '@pages/auth/login';
+import User from 'pages/admin/user';
+import Home from 'pages/admin/home';
+import ClientHomePage from 'pages/client/home'
+import LoginPage from 'pages/auth/login';
 import { App } from 'antd';
 import '@ant-design/v5-patch-for-react-19';
-import AppProvider from '@context/app.provider';
-import ClientLayout from './components/client/layout/client.layout';
-import '@styles/global.scss'
-import "@styles/tailwind.css";
-import RegisterPage from './pages/auth/register';
-import ProductsPage from './pages/client/products';
-import ProductDetailPage from './pages/client/productDetail';
-import Product from './pages/admin/product';
-import ProtectedRoute from './components/auth/protectedRoute';
-import CartPage from './pages/client/cart';
-import CheckoutPage from './pages/client/checkout';
-import ThanksPage from './pages/client/thankyou';
+import AppProvider from 'context/app.provider';
+import ClientLayout from 'components/client/layout/client.layout';
+import 'styles/global.scss'
+import "styles/tailwind.css";
+import RegisterPage from 'pages/auth/register';
+import ProductsPage from 'pages/client/products';
+import ProductDetailPage from 'pages/client/productDetail';
+import Product from 'pages/admin/product';
+import ProtectedRoute from 'components/auth/protectedRoute';
+import CartPage from 'pages/client/cart';
+import CheckoutPage from 'pages/client/checkout';
+import ThanksPage from 'pages/client/thankyou';
 
 
 const router = createBrowserRouter([

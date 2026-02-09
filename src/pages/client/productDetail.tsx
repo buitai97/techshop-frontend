@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ShoppingCart, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import { useParams } from 'react-router';
-import { addToCartAPI, getProductAPI } from '@/services/api';
-import { useAppContext } from '@/context/app.provider';
+import { addToCartAPI, getProductAPI } from 'services/api';
+import { useAppContext } from 'context/app.provider';
 import { Button, message } from 'antd';
 
 export default function ProductDetailPage() {

@@ -2,7 +2,7 @@ import type { FormProps } from 'antd';
 import { App, Button, Divider, Form, Input, Typography } from 'antd';
 import { fetchAccountAPI, loginAPI } from '../../services/api';
 import { Link, useNavigate } from 'react-router';
-import { useAppContext } from '@/context/app.provider';
+import { useAppContext } from 'context/app.provider';
 
 type FieldType = {
     username: string;

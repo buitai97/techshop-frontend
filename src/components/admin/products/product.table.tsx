@@ -1,5 +1,5 @@
-import AddProductModal from "@/modal/addProduct"
-import { deleteProductAPI, getProductsAPI } from "@/services/api"
+import AddProductModal from "modal/addProduct"
+import { deleteProductAPI, getProductsAPI } from "services/api"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Button, Space, Table, type TableProps } from "antd"
 import { useEffect, useState } from "react"
