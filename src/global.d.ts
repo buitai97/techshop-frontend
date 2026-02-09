@@ -55,4 +55,18 @@ declare global {
     interface IOrder {
 
     }
+
+    interface IAppData {
+        user?: IUser | null,
+        cart?: ICart | null,
+        cartSum?: number,
+        isPageLoading: boolean,
+        isAuthenticated: boolean,
+        setUser: (v: IUser | null) => void,
+        setCartSum: React.Dispatch<React.SetStateAction<number>>;
+        setCart: (v: ICart | null) => void,
+        setIsPageLoading: (v: boolean) => void,
+        setIsAuthenticated: (v: boolean) => void,
+
+    };
 }

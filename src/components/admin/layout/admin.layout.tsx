@@ -2,7 +2,7 @@ import { Outlet } from "react-router"
 import AdminHeader from "components/admin/layout/admin.header"
 import { Spin } from "antd"
 import AdminFooter from "components/admin/layout/admin.footer"
-import { useAppContext } from "context/app.provider"
+import { useAppContext } from "context/app.context"
 
 const Layout = () => {
     const { isPageLoading } = useAppContext()

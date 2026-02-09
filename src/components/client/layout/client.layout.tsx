@@ -1,6 +1,6 @@
 import { Outlet } from "react-router"
 import { useEffect } from "react"
-import { useAppContext } from "context/app.provider"
+import { useAppContext } from "context/app.context"
 import { Spin } from "antd"
 import ClientFooter from "./client.footer"
 import ClientHeader from "./client.header"
@@ -34,7 +34,7 @@ const ClientLayout = () => {
             setIsPageLoading(false)
         }
         initUser()
-    }, [])
+    }, [setIsAuthenticated, setUser, setCart, setCartSum, setIsPageLoading])
     return (
         <>
             {isPageLoading === false ? (

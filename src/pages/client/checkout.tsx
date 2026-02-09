@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Form, Input, Button, Radio, Divider, Space, Card, message } from 'antd';
 import { CreditCardOutlined, LockOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useAppContext } from 'context/app.provider';
+import { useAppContext } from 'context/app.context';
 import { createOrderAPI, emptyCartAPI, fetchCartAPI } from 'services/api';
 import { useNavigate } from 'react-router';
 

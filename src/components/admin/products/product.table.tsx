@@ -2,23 +2,20 @@ import AddProductModal from "modal/addProduct"
 import { deleteProductAPI, getProductsAPI } from "services/api"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Button, Space, Table, type TableProps } from "antd"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 const ProductTable = () => {
     const [data, setData] = useState<{ count: number, products: IProduct[], pageSize: number }>()
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [showAddProductModal, setShowAddProductModal] = useState<boolean>(false)
 
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         const res = await getProductsAPI(currentPage, 10, false)
         setData(res.data)
-    }
-    useEffect(() => {
-
-        fetchProducts()
     }, [currentPage])
-
-    console.log(data)
+    useEffect(() => {
+        fetchProducts()
+    }, [fetchProducts])
 
     const handleAddProduct = () => {
         // open modal to add product
@@ -61,7 +58,7 @@ const ProductTable = () => {
             key: 'action',
             render: (_, record, __) => (
                 <Space size="middle">
-                    <EditOutlined style={{ color: "orange", cursor: "pointer" }} />
+                    <EditOutlined style={{ color: "orange", cursor: "pointer" }} onClick={() => { /* handle edit product */ }} />
                     <DeleteOutlined style={{ color: "red", cursor: "pointer" }} onClick={() => { handleDeleteProduct(record.id) }} />
                 </Space>
             ),

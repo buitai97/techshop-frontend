@@ -3,7 +3,7 @@ import { Card, Row, Col, Button, Badge, Typography, Tag, message, Slider, Divide
 import { LoadingOutlined, SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { addToCartAPI, getProductsAPI } from 'services/api';
 import { useNavigate } from 'react-router';
-import { useAppContext } from 'context/app.provider';
+import { useAppContext } from 'context/app.context';
 
 const { Title, Text, Paragraph } = Typography;
 const ProductsPage = () => {

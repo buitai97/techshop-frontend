@@ -1,6 +1,6 @@
 import { MenuOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { Badge, Dropdown, Layout, Space, type MenuProps } from "antd";
-import { useAppContext } from "context/app.provider";
+import { useAppContext } from "context/app.context";
 import { Link, useNavigate } from "react-router";
 
 const { Header } = Layout;
@@ -51,9 +51,7 @@ const ClientHeader = () => {
                 key: '0',
             })
         }
-        else {
 
-        }
     }
 
     return (

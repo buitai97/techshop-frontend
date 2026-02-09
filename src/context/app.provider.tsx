@@ -1,33 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import {  useState } from "react";
+import { AppContext } from "./app.context";
 
 interface IProps {
     children: React.ReactNode
 }
 
-interface IAppData {
-    user?: IUser | null,
-    cart?: ICart | null,
-    cartSum?: number,
-    isPageLoading: boolean,
-    isAuthenticated: boolean,
-    setUser: (v: IUser | null) => void,
-    setCartSum: React.Dispatch<React.SetStateAction<number>>;
-    setCart: (v: ICart | null) => void,
-    setIsPageLoading: (v: boolean) => void,
-    setIsAuthenticated: (v: boolean) => void,
-
-};
-
-const AppContext = createContext<IAppData | null>(null);
-const AppProvider = (props: IProps) => {
+const AppProvider = ({children}: IProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
     const [user, setUser] = useState<IUser | null>(null)
     const [isPageLoading, setIsPageLoading] = useState<boolean>(false)
     const [cart, setCart] = useState<ICart | null>(null)
     const [cartSum, setCartSum] = useState<number>(0)
-    const { children } = props
     return (
-        <AppContext value={{
+        <AppContext.Provider value={{
             user,
             setUser,
             isPageLoading,
@@ -40,14 +25,9 @@ const AppProvider = (props: IProps) => {
             setCartSum
         }}>
             {children}
-        </AppContext>
+        </AppContext.Provider>
     )
 }
 
-export const useAppContext = () => {
-    const object = useContext(AppContext);
-    if (!object) { throw new Error("useAppContext must be used within a Provider") }
-    return object;
-}
 
 export default AppProvider

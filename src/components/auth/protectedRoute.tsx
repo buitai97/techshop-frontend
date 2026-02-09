@@ -1,4 +1,4 @@
-import { useAppContext } from "context/app.provider";
+import { useAppContext } from "context/app.context";
 import { fetchAccountAPI } from "services/api";
 import { Button, Result, Spin } from "antd";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ const ProtectedRoute = () => {
             setIsPageLoading(false)
         }
         initUser()
-    }, [])
+    }, [setIsAuthenticated, setUser, setIsPageLoading])
     const isAdminRoute = location.pathname.includes("admin")
 
     if (isPageLoading) {

@@ -1,4 +1,4 @@
-import { useAppContext } from "context/app.provider";
+import { useAppContext } from "context/app.context";
 import { fetchCartAPI, updateCartItemAPI } from "services/api";
 import { ArrowLeftOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Empty, InputNumber, Spin, Tag } from "antd"
