@@ -7,7 +7,7 @@ import { useAppContext } from 'context/app.provider';
 const { Title, Text, Paragraph } = Typography;
 
 const FeatureProducts = () => {
-    const { setCartSum } = useAppContext();
+    const { setCartSum, isAuthenticated } = useAppContext();
     const [products, setProducts] = useState<IProduct[]>();
     const [dataLoading, setDataLoading] = useState(false);
     useEffect(() => {
@@ -25,11 +25,18 @@ const FeatureProducts = () => {
     const [loading, setLoading] = useState<any>({});
 
     const handleAddToCart = async (product: IProduct) => {
-        setLoading((prev: any) => ({ ...prev, [product.id]: true }));
-        setCartSum((prev: number) => prev + 1);
-        await addToCartAPI(product.id, 1);
-        setLoading((prev: any) => ({ ...prev, [product.id]: false }));
-        message.success(`${product.name} added to cart!`);
+        if (isAuthenticated) {
+            setLoading((prev: any) => ({ ...prev, [product.id]: true }));
+            setCartSum((prev: number) => prev + 1);
+            await addToCartAPI(product.id, 1);
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            message.success(`${product.name} added to cart!`);
+        }
+        else {
+            message.error('Please login to add products to cart!');
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            return;
+        }
     };
 
     const cardActions = (product: IProduct) => [

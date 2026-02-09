@@ -77,10 +77,10 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
                     <Form.Item label="Category" name="category" rules={[{ required: true, message: 'Please enter the category' }]}>
                         <Input placeholder="Enter category" />
                     </Form.Item>
-                    <Form.Item label="Short Description" name="shortDesc">
+                    <Form.Item label="Short Description" name="shortDesc" rules={[{ required: true, message: 'Please enter the short description' }]}>
                         <Input.TextArea placeholder="Enter short description" />
                     </Form.Item>
-                    <Form.Item label="Full Description" name="detailDesc">
+                    <Form.Item label="Full Description" name="detailDesc" rules={[{ required: true, message: 'Please enter the full description' }]}>
                         <Input.TextArea placeholder="Enter full description" />
                     </Form.Item>
 

@@ -13,6 +13,7 @@ const ProductsPage = () => {
     const [total, setTotal] = useState<number>(0)
     const [loading, setLoading] = useState<any>({});
     const [dataLoading, setDataLoading] = useState(false);
+    const { isAuthenticated } = useAppContext();
     const navigate = useNavigate()
 
     // filter states
@@ -61,10 +62,19 @@ const ProductsPage = () => {
     const handleAddToCart = async (product: IProduct) => {
 
         setLoading((prev: any) => ({ ...prev, [product.id]: true }));
-        setCartSum((prev: number) => prev + 1);
-        await addToCartAPI(product.id, 1);
-        setLoading((prev: any) => ({ ...prev, [product.id]: false }));
-        message.success(`${product.name} added to cart!`);
+        console.log(isAuthenticated)
+
+        if (isAuthenticated) {
+            setCartSum((prev: number) => prev + 1);
+            await addToCartAPI(product.id, 1);
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            message.success(`${product.name} added to cart!`);
+        }
+        else {
+            message.error('Please login to add products to cart!');
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            return;
+        }
     };
 
 
