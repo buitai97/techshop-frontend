@@ -14,7 +14,7 @@ const FeatureProducts = () => {
 
         const fetchProducts = async () => {
             setDataLoading(true);
-            const res = await getProductsAPI(1, 6, true)
+            const res = await getProductsAPI('', 1, 6, true)
             const products = res.data.products
             setProducts(products)
             setDataLoading(false);

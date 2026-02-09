@@ -31,14 +31,14 @@ const ProductsPage = () => {
 
         const fetchProducts = async () => {
             setDataLoading(true);
-            const res = await getProductsAPI(page, 8, inStockOnly, selectedBrands, selectedCategories, priceRange)
+            const res = await getProductsAPI(searchTerm, page, 8, inStockOnly, selectedBrands, selectedCategories, priceRange)
             setProducts(res.data.products)
             setTotal(res.data.count)
             setDataLoading(false);
         }
         fetchProducts()
 
-    }, [page, inStockOnly, priceRange, selectedBrands, selectedCategories])
+    }, [searchTerm, page, inStockOnly, priceRange, selectedBrands, selectedCategories])
 
 
     const handleBrandChange = (checkedValues: any) => {
