@@ -62,7 +62,6 @@ const ProductsPage = () => {
     const handleAddToCart = async (product: IProduct) => {
 
         setLoading((prev: any) => ({ ...prev, [product.id]: true }));
-        console.log(isAuthenticated)
 
         if (isAuthenticated) {
             setCartSum((prev: number) => prev + 1);

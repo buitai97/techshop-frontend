@@ -9,7 +9,7 @@ export default function ProductDetailPage() {
     const [quantity, setQuantity] = useState(1);
     const { id } = useParams()
     const [product, setProduct] = useState<IProduct>()
-    const { setCartSum } = useAppContext();
+    const { setCartSum, isAuthenticated } = useAppContext();
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchProduct = async () => {
@@ -28,12 +28,19 @@ export default function ProductDetailPage() {
         }
     };
 
-    const handleAddToCart = async (product: IProduct | undefined, quantity: number) => {
+    const handleAddToCart = async (product: IProduct, quantity: number) => {
         setLoading(true);
-        setCartSum((prev: number) => prev + 1);
-        await addToCartAPI(product!.id, quantity);
-        setLoading(false);
-        message.success(`${product?.name} added to cart!`);
+        if (isAuthenticated) {
+            setCartSum((prev: number) => prev + 1);
+            await addToCartAPI(product.id, quantity);
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            message.success(`${product.name} added to cart!`);
+        }
+        else {
+            message.error('Please login to add products to cart!');
+            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            return;
+        }
     }
 
 
@@ -111,7 +118,7 @@ export default function ProductDetailPage() {
                         <div className="flex gap-3">
                             <Button
                                 type="primary"
-                                onClick={() => handleAddToCart(product, quantity)}
+                                onClick={() => handleAddToCart(product!, quantity)}
                                 loading={loading}
                             >
                                 <ShoppingCart className="w-5 h-5" />
