@@ -29,15 +29,24 @@ const ClientHeader = () => {
             key: '1',
         }
         ,
+
+        {
+            label: (
+                <a href="/orders" rel="noopener noreferrer">
+                    Orders
+                </a>
+            ),
+            key: '3',
+        },
         {
             label: (
                 <a onClick={handleLogout} rel="noopener noreferrer">
                     Log Out
                 </a>
             ),
-            key: '1',
+            key: '2',
         }
-        ,
+
     ];
 
     if (user) {

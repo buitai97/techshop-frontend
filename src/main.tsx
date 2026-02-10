@@ -21,6 +21,7 @@ import ProtectedRoute from 'components/auth/protectedRoute';
 import CartPage from 'pages/client/cart';
 import CheckoutPage from 'pages/client/checkout';
 import ThanksPage from 'pages/client/thankyou';
+import OrdersPage from 'pages/client/orders';
 
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
             {
                 path: "thanks",
                 element: <ThanksPage />
+            },
+            {
+                path: "orders",
+                element: <OrdersPage />
             }
         ]
     },
