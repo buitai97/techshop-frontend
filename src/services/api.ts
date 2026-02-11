@@ -124,8 +124,9 @@ const createOrderAPI = async (
 };
 
 const getOrdersByUserAPI = async () => {
-    const res = await axios.get('/api/orders/user');
-    return res;
+    console.log("API BASE URL:", import.meta.env.VITE_API_BASE_URL);
+    const url = "/api/orders/user";
+    return await axios.get(url);
 };
 
 export {
