@@ -28,20 +28,20 @@ const RegisterPage = () => {
                 }
                 else {
                     message.error("Something Happened!");
-                    setIsSubmit(false)
                 }
             }
         } catch (res: any) {
-            setIsSubmit(false)
+
             const errors = res.response.data.errors
             errors.forEach((err: string) => {
                 message.error(err);
             })
         }
+        setIsSubmit(false)
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        message.error(errorInfo.errorFields[0].errors[0]);
     };
     return (
         <Form
