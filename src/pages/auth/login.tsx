@@ -1,8 +1,9 @@
 import type { FormProps } from 'antd';
-import { App, Button, Divider, Form, Input, Typography } from 'antd';
+import { App, Button, Divider, Form, Input, message, Typography } from 'antd';
 import { fetchAccountAPI, loginAPI } from 'services/api';
 import { Link, useNavigate } from 'react-router';
 import { useAppContext } from 'context/app.context';
+import { useState } from 'react';
 
 type FieldType = {
     username: string;
@@ -15,9 +16,10 @@ const LoginPage = () => {
     const { notification } = App.useApp()
     const navigate = useNavigate()
     const { setUser, setIsAuthenticated } = useAppContext();
+    const [isSubmit, setIsSubmit] = useState(false);
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         const { password, username } = values
-
+        setIsSubmit(true)
         try {
             const res = await loginAPI(username, password)
             if (res?.data) {
@@ -38,10 +40,11 @@ const LoginPage = () => {
                 description: message
             })
         }
+        setIsSubmit(false)
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        message.error(errorInfo.errorFields[0].errors[0]);
     };
     return (
         <div style={{ maxWidth: "500px", margin: "auto", padding: "60px" }}>
@@ -75,7 +78,7 @@ const LoginPage = () => {
                 </Form.Item>
 
                 <Form.Item className='text-center'>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" loading={isSubmit}>
                         Login
                     </Button>
                 </Form.Item>
