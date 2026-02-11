@@ -1,23 +1,12 @@
-import { use, useEffect, useState } from 'react';
-import { Table, Tag, Button, Space, Input, Select, Card, Drawer, Descriptions, Timeline, Badge, Modal, message } from 'antd';
-import { SearchOutlined, EyeOutlined, PrinterOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Table, Card } from 'antd';
 import { getOrdersByUserAPI } from 'services/api';
 
-const { Search } = Input;
-const { Option } = Select;
-
 export default function OrdersPage() {
-    const [searchText, setSearchText] = useState<string>('');
-    const [statusFilter, setStatusFilter] = useState<string>('all');
-    const [selectedOrder, setSelectedOrder] = useState<IOrder | null>(null);
-    const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
 
     const [ordersData, setOrdersData] = useState<IOrder[]>([]);
 
-    const handleViewOrder = (order: IOrder): void => {
-        setSelectedOrder(order);
-        setDrawerVisible(true);
-    };
+
     useEffect(() => {
         const fetchOrders = async () => {
             const res = await getOrdersByUserAPI();
@@ -64,30 +53,6 @@ export default function OrdersPage() {
                 </div>
 
                 <Card>
-                    <div className="mb-4 flex flex-col sm:flex-row gap-4">
-                        <Search
-                            placeholder="Search by order ID, customer, or email"
-                            allowClear
-                            size="large"
-                            prefix={<SearchOutlined />}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            className="flex-1"
-                        />
-                        <Select
-                            size="large"
-                            defaultValue="all"
-                            onChange={(value) => setStatusFilter(value)}
-                            className="w-full sm:w-48"
-                        >
-                            <Option value="all">All Status</Option>
-                            <Option value="pending">Pending</Option>
-                            <Option value="processing">Processing</Option>
-                            <Option value="shipped">Shipped</Option>
-                            <Option value="delivered">Delivered</Option>
-                            <Option value="cancelled">Cancelled</Option>
-                        </Select>
-                    </div>
-
                     <Table
                         columns={columns}
                         dataSource={ordersData}
