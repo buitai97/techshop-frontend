@@ -1,16 +1,13 @@
 # TechShop Frontend
 
 [![CI](https://github.com/buitai97/techshop-frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/buitai97/techshop-frontend/actions/workflows/ci.yml)
+[![Demo](https://img.shields.io/badge/Demo-Live%20Site-0ea5e9)](https://techshop-alpha.vercel.app/)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-Unlicensed-lightgrey)
 
 Professional React + TypeScript frontend for an e-commerce laptop store, with separate customer and admin experiences.
-
-## Live Demo
-
-[https://techshop-alpha.vercel.app/](https://techshop-alpha.vercel.app/)
 
 ## Tech Stack
 
