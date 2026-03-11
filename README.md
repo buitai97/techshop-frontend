@@ -31,16 +31,6 @@ Professional React + TypeScript frontend for an e-commerce laptop store, with se
 - Admin product management (create/delete)
 - Protected admin routes
 
-## Screenshots
-
-### Hero Preview 1
-
-![TechShop Hero Preview 1](public/client/images/hero-img-1.jpg)
-
-### Hero Preview 2
-
-![TechShop Hero Preview 2](public/client/images/hero-img-2.jpg)
-
 ## Project Structure
 
 ```text
@@ -140,4 +130,5 @@ Output directory:
 ```text
 dist/
 ```
+
 
