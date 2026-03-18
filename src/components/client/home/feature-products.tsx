@@ -4,6 +4,7 @@ import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { addToCartAPI, getProductsAPI } from 'services/api';
 import { getPrimaryProductImageUrl } from 'services/productImages';
 import { useAppContext } from 'context/app.context';
+import { Link } from 'react-router';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -46,7 +47,10 @@ const FeatureProducts = () => {
             type="primary"
             icon={<ShoppingCartOutlined />}
             loading={loading[product.id]}
-            onClick={() => handleAddToCart(product)}
+            onClick={(event) => {
+                event.stopPropagation();
+                void handleAddToCart(product);
+            }}
             disabled={product.quantity == 0}
             className={`${product.quantity != 0 ? 'bg-gradient-to-r! from-blue-500 to-purple-600 border-none hover:from-blue-600 hover:to-purple-700' : ''} 
         transition-all duration-300 hover:scale-105 hover:shadow-lg`}
@@ -90,13 +94,15 @@ const FeatureProducts = () => {
                                     <Card
                                         hoverable
                                         cover={
-                                            <div className="h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 group">
-                                                <img
-                                                    alt={product.name}
-                                                    src={getPrimaryProductImageUrl(product)}
-                                                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-                                                />
-                                            </div>
+                                            <Link to={`/products/${product.id}`} className="block">
+                                                <div className="h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 group cursor-pointer">
+                                                    <img
+                                                        alt={product.name}
+                                                        src={getPrimaryProductImageUrl(product)}
+                                                        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                                                    />
+                                                </div>
+                                            </Link>
                                         }
                                         actions={cardActions(product)}
                                         className="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl 
@@ -118,7 +124,9 @@ const FeatureProducts = () => {
                                                 className="mb-3 text-gray-800 leading-tight hover:text-blue-600! text-center transition-colors duration-300"
                                                 ellipsis={{ rows: 1 }}
                                             >
-                                                {product.name}
+                                                <Link to={`/products/${product.id}`}>
+                                                    {product.name}
+                                                </Link>
                                             </Title>
 
                                             {/* Description */}
