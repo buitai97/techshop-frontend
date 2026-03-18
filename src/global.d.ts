@@ -9,6 +9,12 @@ declare global {
     detailDesc?: string;
     brand?: string;
     imageKey?: string;
+    productImages?: {
+      id: number;
+      imageKey: string;
+      sortOrder: number;
+      productId?: number;
+    }[];
     shortDesc?: string;
     sold?: number;
     category?: string;

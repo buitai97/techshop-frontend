@@ -1,9 +1,12 @@
 import { createProductAPI } from "services/api";
 import { PlusOutlined } from "@ant-design/icons";
+import axios from "axios";
 import { Form, Input, message, Modal, Upload, type UploadFile, type UploadProps } from "antd"
 import { useForm } from "antd/es/form/Form";
 import type { UploadChangeParam } from "antd/es/upload";
 import { useState } from "react";
+
+const MAX_IMAGE_SIZE_MB = 10;
 
 interface AddProductModalProps {
     open: boolean;
@@ -15,30 +18,41 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
 
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [files, setFiles] = useState<File[]>([]);
+    const [submitting, setSubmitting] = useState(false);
     const [form] = useForm();
     const handleOnFinish = async (values: any) => {
+        setSubmitting(true);
         const formData = new FormData();
 
-        // append form fields
-        Object.entries(values).forEach(([key, value]) => {
-            if (value !== undefined && value !== null) {
-                formData.append(key, String(value));
-            }
-        });
+        try {
+            // append form fields
+            Object.entries(values).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    formData.append(key, String(value));
+                }
+            });
 
-        // append image
-        files.forEach(file => {
-            formData.append("image", file);
-        });
+            // append image
+            files.forEach(file => {
+                formData.append("image", file);
+            });
 
-        await createProductAPI(formData);
-        message.success("Product created");
+            await createProductAPI(formData);
+            message.success("Product created");
 
-        setFileList([]);
-        setFiles([]);
-        refetchProducts();
-        form.resetFields();
-        closeModal();
+            setFileList([]);
+            setFiles([]);
+            refetchProducts();
+            form.resetFields();
+            closeModal();
+        } catch (error) {
+            const errorMessage = axios.isAxiosError(error)
+                ? error.response?.data?.message || error.message
+                : "Failed to create product";
+            message.error(errorMessage);
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     const handleFileChange: UploadProps['onChange'] = (info: UploadChangeParam) => {
@@ -55,7 +69,16 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
                 title="Add Product"
                 open={open}
                 onOk={form.submit}
-                onCancel={closeModal}
+                onCancel={() => {
+                    if (!submitting) {
+                        closeModal();
+                    }
+                }}
+                okText={submitting ? "Adding..." : "Add Product"}
+                okButtonProps={{ loading: submitting }}
+                cancelButtonProps={{ disabled: submitting }}
+                closable={!submitting}
+                maskClosable={!submitting}
             >
                 <Form
                     form={form}
@@ -85,19 +108,38 @@ const AddProductModal = ({ open, closeModal, refetchProducts }: AddProductModalP
                     </Form.Item>
 
                     <Upload
-                        maxCount={1}
+                        multiple
+                        maxCount={8}
                         listType="picture-card"
-                        beforeUpload={() => false}
+                        beforeUpload={(file) => {
+                            const isValidSize = file.size / 1024 / 1024 <= MAX_IMAGE_SIZE_MB;
+                            if (!isValidSize) {
+                                message.error(`${file.name} must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`);
+                                return Upload.LIST_IGNORE;
+                            }
+
+                            return false;
+                        }}
                         fileList={fileList}
                         onChange={handleFileChange}
+                        disabled={submitting}
+                        onPreview={(file) => {
+                            const previewUrl = file.url ?? (file.thumbUrl || "");
+                            if (previewUrl) {
+                                window.open(previewUrl, "_blank");
+                            }
+                        }}
                     >
-                        {fileList.length < 1 && (
+                        {fileList.length < 8 && (
                             <button type="button">
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Upload</div>
                             </button>
                         )}
                     </Upload>
+                    <div style={{ color: "#64748b", fontSize: 13, marginTop: 8 }}>
+                        Upload up to 8 product pictures. The first image becomes the cover image. Each image can be up to 10 MB.
+                    </div>
 
 
                 </Form>

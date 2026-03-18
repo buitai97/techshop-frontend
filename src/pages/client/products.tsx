@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, Row, Col, Button, Badge, Typography, Tag, message, Slider, Divider, Checkbox, Input, Pagination, Spin, Flex } from 'antd';
 import { LoadingOutlined, SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { addToCartAPI, getProductsAPI } from 'services/api';
+import { getPrimaryProductImageUrl } from 'services/productImages';
 import { useNavigate } from 'react-router';
 import { useAppContext } from 'context/app.context';
 
@@ -219,7 +220,7 @@ const ProductsPage = () => {
                                                     >
                                                         <img
                                                             alt={product.name}
-                                                            src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product.imageKey}`}
+                                                            src={getPrimaryProductImageUrl(product)}
                                                             className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                                                         />
                                                     </div>

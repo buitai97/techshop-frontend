@@ -93,7 +93,7 @@ const getProductAPI = async (id: number) => {
 const createProductAPI = async (formData: FormData) => {
     let url = `/api/products`;
     return await axios.post(url, formData, {
-        headers: { "Content-Type": "application/multipart" },
+        headers: { "Content-Type": "multipart/form-data" },
     });
 };
 

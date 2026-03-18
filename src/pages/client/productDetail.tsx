@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { ShoppingCart, Star, Truck, Shield, RotateCcw } from 'lucide-react';
 import { useParams } from 'react-router';
 import { addToCartAPI, getProductAPI } from 'services/api';
+import { buildS3ImageUrl, getProductImageKeys } from 'services/productImages';
 import { useAppContext } from 'context/app.context';
-import { Button, message } from 'antd';
+import { Button, Carousel, message } from 'antd';
 
 export default function ProductDetailPage() {
     const [quantity, setQuantity] = useState(1);
@@ -33,16 +34,17 @@ export default function ProductDetailPage() {
         if (isAuthenticated) {
             setCartSum((prev: number) => prev + 1);
             await addToCartAPI(product.id, quantity);
-            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            setLoading(false);
             message.success(`${product.name} added to cart!`);
         }
         else {
             message.error('Please login to add products to cart!');
-            setLoading((prev: any) => ({ ...prev, [product.id]: false }));
+            setLoading(false);
             return;
         }
     }
 
+    const imageKeys = getProductImageKeys(product)
 
     return (
         <div>
@@ -50,13 +52,29 @@ export default function ProductDetailPage() {
                 <div className="grid md:grid-cols-2 gap-8 p-6 md:p-8">
                     {/* Image Gallery */}
                     <div className="space-y-4">
-                        <div className="relative bg-gray-100 rounded-lg overflow-hidden group">
-                            <img
-                                src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product?.imageKey}`}
-                                alt={product?.name}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
+                        {imageKeys.length > 0 ? (
+                            <Carousel
+                                arrows
+                                autoplay
+                                infinite={imageKeys.length > 1}
+                            >
+                                {imageKeys.map((imageKey) => (
+                                    <div key={imageKey}>
+                                        <div className="h-96 overflow-hidden rounded-lg bg-gray-100">
+                                            <img
+                                                src={buildS3ImageUrl(imageKey)}
+                                                alt={product?.name}
+                                                className="h-full w-full object-cover"
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </Carousel>
+                        ) : (
+                            <div className="h-96 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500">
+                                No image available
+                            </div>
+                        )}
                     </div>
 
                     {/* Product Info */}

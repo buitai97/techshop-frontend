@@ -1,5 +1,6 @@
 import AddProductModal from "modal/addProduct"
 import { deleteProductAPI, getProductsAPI } from "services/api"
+import { getPrimaryProductImageUrl } from "services/productImages"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Button, Space, Table, type TableProps } from "antd"
 import { useCallback, useEffect, useState } from "react"
@@ -36,6 +37,32 @@ const ProductTable = () => {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+        },
+        {
+            title: 'Image',
+            dataIndex: 'imageKey',
+            key: 'image',
+            render: (_, record) => {
+                const imageUrl = getPrimaryProductImageUrl(record);
+
+                if (!imageUrl) {
+                    return <span style={{ color: "#94a3b8" }}>No image</span>;
+                }
+
+                return (
+                    <img
+                        src={imageUrl}
+                        alt={record.name}
+                        style={{
+                            width: 56,
+                            height: 56,
+                            objectFit: "cover",
+                            borderRadius: 10,
+                            border: "1px solid #e2e8f0",
+                        }}
+                    />
+                );
+            }
         },
         {
             title: 'Product',

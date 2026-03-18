@@ -4,6 +4,7 @@ import { ArrowLeftOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/
 import { Button, Card, Divider, Empty, InputNumber, Spin, Tag } from "antd"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getPrimaryProductImageUrl } from "services/productImages";
 
 const CartPage = () => {
     const { setCartSum } = useAppContext();
@@ -112,7 +113,7 @@ const CartPage = () => {
                                                 {/* Product Image */}
                                                 <div className="flex-shrink-0">
                                                     <img
-                                                        src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${item.product.imageKey}`}
+                                                        src={getPrimaryProductImageUrl(item.product)}
                                                         alt={item.product.name}
                                                         className="w-full sm:w-32 h-32 object-cover rounded-lg"
                                                     />

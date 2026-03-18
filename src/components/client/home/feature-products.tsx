@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, Row, Col, Button, Badge, Typography, Tag, message, Spin, Flex } from 'antd';
 import { LoadingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { addToCartAPI, getProductsAPI } from 'services/api';
+import { getPrimaryProductImageUrl } from 'services/productImages';
 import { useAppContext } from 'context/app.context';
 
 const { Title, Text, Paragraph } = Typography;
@@ -92,7 +93,7 @@ const FeatureProducts = () => {
                                             <div className="h-64 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 group">
                                                 <img
                                                     alt={product.name}
-                                                    src={`https://${import.meta.env.VITE_S3_BUCKET_NAME}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${product?.imageKey}`}
+                                                    src={getPrimaryProductImageUrl(product)}
                                                     className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                                                 />
                                             </div>
